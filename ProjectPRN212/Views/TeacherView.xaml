@@ -1,0 +1,105 @@
+﻿<Page x:Class="ProjectPRN212.TeacherView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:ProjectPRN212"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="TeacherView">
+
+    <Grid>
+        <TabControl>
+            <!-- Tab Quản lý khóa học -->
+            <TabItem Header="Course Management">
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <!-- Form thêm/sửa khóa học -->
+                    <StackPanel Grid.Row="0" Orientation="Vertical" Margin="5">
+                        <TextBox x:Name="CourseName" Text="{Binding NewCourse.CourseName}" Width="200" Margin="5" Header="Course Name"/>
+                        <DatePicker x:Name="StartDate" SelectedDate="{Binding NewCourse.StartDate}" Width="200" Margin="5" Header="Start Date"/>
+                        <DatePicker x:Name="EndDate" SelectedDate="{Binding NewCourse.EndDate}" Width="200" Margin="5" Header="End Date"/>
+                        <Button Content="Add Course" Command="{Binding AddCourseCommand}" Width="100" Margin="5"/>
+                        <Button Content="Update Course" Command="{Binding UpdateCourseCommand}" Width="100" Margin="5"/>
+                    </StackPanel>
+                    <!-- Danh sách khóa học -->
+                    <DataGrid Grid.Row="1" ItemsSource="{Binding Courses}" SelectedItem="{Binding SelectedCourse}" AutoGenerateColumns="False" Margin="5">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Course Name" Binding="{Binding CourseName}"/>
+                            <DataGridTextColumn Header="Start Date" Binding="{Binding StartDate, StringFormat=d}"/>
+                            <DataGridTextColumn Header="End Date" Binding="{Binding EndDate, StringFormat=d}"/>
+                            <DataGridTemplateColumn Header="Actions">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Content="Delete" Command="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.DeleteCourseCommand}" CommandParameter="{Binding}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+            <!-- Tab Xác nhận đăng ký -->
+            <TabItem Header="Registration Approval">
+                <Grid Margin="10">
+                    <DataGrid ItemsSource="{Binding Registrations}" AutoGenerateColumns="False" Margin="5">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Student" Binding="{Binding User.FullName}"/>
+                            <DataGridTextColumn Header="Course" Binding="{Binding Course.CourseName}"/>
+                            <DataGridTextColumn Header="Status" Binding="{Binding Status}"/>
+                            <DataGridTemplateColumn Header="Actions">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Button Content="Approve" Command="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.ApproveRegistrationCommand}" CommandParameter="{Binding}"/>
+                                            <Button Content="Reject" Command="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.RejectRegistrationCommand}" CommandParameter="{Binding}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+            <!-- Tab Quản lý điểm thi -->
+            <TabItem Header="Exam Results">
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <!-- Form nhập điểm -->
+                    <StackPanel Grid.Row="0" Orientation="Vertical" Margin="5">
+                        <ComboBox ItemsSource="{Binding Exams}" SelectedItem="{Binding SelectedExam}" DisplayMemberPath="Date" Width="200" Margin="5"/>
+                        <ComboBox ItemsSource="{Binding Registrations}" SelectedItem="{Binding SelectedRegistration}" DisplayMemberPath="User.FullName" Width="200" Margin="5"/>
+                        <TextBox Text="{Binding NewResult.Score}" Width="200" Margin="5" Header="Score"/>
+                        <CheckBox IsChecked="{Binding NewResult.PassStatus}" Content="Pass" Margin="5"/>
+                        <Button Content="Submit Result" Command="{Binding SubmitResultCommand}" Width="100" Margin="5"/>
+                    </StackPanel>
+                    <!-- Danh sách kết quả -->
+                    <DataGrid Grid.Row="1" ItemsSource="{Binding Results}" AutoGenerateColumns="False" Margin="5">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Student" Binding="{Binding User.FullName}"/>
+                            <DataGridTextColumn Header="Exam Date" Binding="{Binding Exam.Date, StringFormat=d}"/>
+                            <DataGridTextColumn Header="Score" Binding="{Binding Score}"/>
+                            <DataGridTextColumn Header="Pass" Binding="{Binding PassStatus}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+            <!-- Tab Thông báo -->
+            <TabItem Header="Notifications">
+                <Grid Margin="10">
+                    <StackPanel Orientation="Vertical" Margin="5">
+                        <TextBox Text="{Binding NotificationMessage}" Width="300" Height="100" Margin="5" Header="Message"/>
+                        <ComboBox ItemsSource="{Binding Users}" SelectedItem="{Binding SelectedUser}" DisplayMemberPath="FullName" Width="200" Margin="5" Header="Recipient"/>
+                        <Button Content="Send Notification" Command="{Binding SendNotificationCommand}" Width="100" Margin="5"/>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Page>
