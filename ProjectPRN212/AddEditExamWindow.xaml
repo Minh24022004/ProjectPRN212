@@ -1,0 +1,29 @@
+﻿<Window x:Class="ProjectPRN212.AddEditExamWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ProjectPRN212"
+        mc:Ignorable="d"
+        Title="AddEditExamWindow" Height="450" Width="800">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Khóa học:" Grid.Row="0"/>
+        <ComboBox x:Name="CourseComboBox" Grid.Row="0" Margin="100,0,0,10" DisplayMemberPath="CourseName" SelectedValuePath="CourseId"/>
+
+        <TextBlock Text="Ngày thi:" Grid.Row="1"/>
+        <DatePicker x:Name="DatePicker" Grid.Row="1" Margin="100,0,0,10"/>
+
+        <TextBlock Text="Phòng:" Grid.Row="2"/>
+        <TextBox x:Name="RoomTextBox" Grid.Row="2" Margin="100,0,0,10"/>
+
+        <Button Content="Lưu" Grid.Row="3" Margin="0,10,0,0" Width="100" HorizontalAlignment="Center"
+                Click="Save_Click"/>
+    </Grid>
+</Window>

@@ -1,0 +1,103 @@
+﻿<Window x:Class="ProjectPRN212.Register"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ProjectPRN212"
+                mc:Ignorable="d" WindowStartupLocation="CenterScreen" WindowStyle="None" AllowsTransparency="True" Background="Transparent"
+        Title="Login" Height="500" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="1.5*"/>
+        </Grid.ColumnDefinitions>
+        <Label x:Name="lblClose" MouseLeftButtonUp="Label_MouseLeftButtonUp" FontWeight="Bold" Height="50" FontSize="30" Content="X" Grid.Column="1" Panel.ZIndex="1" Style="{StaticResource btnClose}"/>
+        <Border CornerRadius="10 0 0 10">
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Color="Red" Offset="0"/>
+                    <GradientStop Color="White" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.Background>
+            <Grid>
+                <Canvas>
+                    <Polygon Points="0, 20 230, 140 0, 270" Fill="#FFF31414" />
+                    <Polygon Points="100, 400 200, 370 180, 470" Fill="#FFF31414" />
+                    <Ellipse Margin="250 450 0 0" Width="40" Height="40"  Fill="#FFF31414" />
+                    <Ellipse Margin="50 400 0 0" Width="40" Height="40"  Fill="#FFF31414" />
+                </Canvas>
+                <StackPanel VerticalAlignment="Center">
+                    <TextBlock Text="Sign In" Style="{StaticResource titleText}"/>
+                    <TextBlock Text="Nếu bạn đã có Account thì có thể đăng nhập vào trang để thi thử" Style="{StaticResource normalText}" Opacity="0.8" Margin="20 30"/>
+                    <Button x:Name="btnSignIn" Content="Sign In" Style="{StaticResource button}" Click="btnSignIn_Click" />
+                </StackPanel>
+            </Grid>
+        </Border>
+        <Border Background="#ffffff" Grid.Column="1" CornerRadius="0 10 10 0" >
+            <StackPanel VerticalAlignment="Center" Height="400">
+                <TextBlock Text="Sign Up" Style="{StaticResource titleText}" Foreground="Red"/>
+                <Grid Margin="20" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+
+                    </Grid.RowDefinitions>
+
+                    <!-- Email Field -->
+                    <Border BorderThickness="1" BorderBrush="#acb0af" CornerRadius="5" Grid.Row="0" Margin="61,7,-42,13">
+                        <Grid Margin="5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Label FontWeight="Bold" FontSize="20" Height="40" VerticalAlignment="Center" Content="Account" Margin="-142,0,294,0"/>
+                            <TextBox ToolTip="Tài khoản của bạn phải có 8 kí tự và không được bắt đầu bằng số hoặc chữ cái đặc biệt" Padding="auto" FontSize="17" x:Name="txtEmail"  Margin="10,9,10,0" BorderThickness="0"/>
+                        </Grid>
+                    </Border>
+
+                    <!-- Password Field -->
+                    <Border BorderThickness="1" BorderBrush="#acb0af" CornerRadius="5" Grid.Row="1" Margin="61,7,-42,13">
+                        <Grid Margin="5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Label FontWeight="Bold" FontSize="20" Height="40" Width="100" VerticalAlignment="Top" Content="Password" Margin="-142,5,257,0" RenderTransformOrigin="0.725,0.322"/>
+                            <PasswordBox ToolTip="Mật khẩu của bạn phải có ít nhất 8 kí tự" Padding="auto" FontSize="17" x:Name="txtPassword" Margin="8,10,10,0" BorderThickness="0" Grid.ColumnSpan="2"/>
+                        </Grid>
+                    </Border>
+                    <Border BorderThickness="1" BorderBrush="#acb0af" CornerRadius="5" Grid.Row="2" Margin="61,10,-42,9">
+                        <Grid Margin="5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Label FontWeight="Bold" FontSize="20" Height="40" Width="135" VerticalAlignment="Top" Content="Confirm Pass" Margin="-145,1,260,0" RenderTransformOrigin="0.725,0.322"/>
+                            <PasswordBox Padding="auto" FontSize="17" x:Name="txtConfimpass" Margin="8,10,10,0" BorderThickness="0" Grid.ColumnSpan="2"/>
+                        </Grid>
+                    </Border>
+                    <Border BorderThickness="1" BorderBrush="#acb0af" CornerRadius="5" Grid.Row="3" Margin="61,10,-42,9">
+                        <Grid Margin="5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Label FontWeight="Bold" FontSize="20" Height="40" Width="135" VerticalAlignment="Top" Content="Full name" Margin="-145,1,260,0" RenderTransformOrigin="0.725,0.322"/>
+                            <TextBox Padding="auto" FontSize="17" x:Name="txtFullname" Margin="8,10,10,0" BorderThickness="0" Grid.ColumnSpan="2"/>
+                        </Grid>
+                    </Border>
+                    <!-- Sign In Button -->
+                    <Button x:Name="btnSignUp"  Content="Sign Up" HorizontalAlignment="Center" Grid.Row="3" Style="{StaticResource mainbutton}" Margin="0,86,0,-66" Click="btnSignUp_Click" />
+                </Grid>
+
+
+
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>

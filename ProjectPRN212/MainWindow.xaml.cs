@@ -20,5 +20,20 @@ namespace ProjectPRN212
         {
             InitializeComponent();
         }
+        private void ManageExams_Click(object sender, RoutedEventArgs e)
+        {
+            ExamManagementView examManagementView = new ExamManagementView();
+            examManagementView.Show();
+        }
+        private void ApproveCertificates_Click(object sender, RoutedEventArgs e)
+        {
+            PhieuDuyetChungChiView certificateManagementView = new PhieuDuyetChungChiView();
+            certificateManagementView.Show();
+        }
+        private void Logout_Click(object sender, RoutedEventArgs e)
+        {
+            Login login = new Login();
+            login.Show();
+        }
     }
 }

@@ -1,16 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ProjectPRN212.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace ProjectPRN212.ViewModels
 {
     public class TeacherViewModel : ObservableObject
     {
-        private readonly AppDbContext _context;
+        private readonly SafeDrivingCertificateDbContext _context;
         private Course _newCourse;
         private Course _selectedCourse;
         private Registration _selectedRegistration;
@@ -41,11 +44,11 @@ namespace ProjectPRN212.ViewModels
                 {
                     NewCourse = new Course
                     {
-                        CourseID = value.CourseID,
+                        CourseId = value.CourseId,
                         CourseName = value.CourseName,
                         StartDate = value.StartDate,
                         EndDate = value.EndDate,
-                        TeacherID = value.TeacherID
+                        TeacherId = value.TeacherId
                     };
                 }
             }
@@ -91,8 +94,8 @@ namespace ProjectPRN212.ViewModels
 
         public TeacherViewModel()
         {
-            _context = new AppDbContext(new DbContextOptionsBuilder<AppDbContext>()
-                .UseSqlServer("Server=your_server;Database=SafeDrivingDB;Trusted_Connection=True;").Options);
+            _context = new SafeDrivingCertificateDbContext(new DbContextOptionsBuilder<SafeDrivingCertificateDbContext>()
+                .UseSqlServer("Server= (local) ;uid=sa;password=123;database=SafeDrivingDB;Encrypt=True;TrustServerCertificate=True;").Options);
             Courses = new ObservableCollection<Course>();
             Registrations = new ObservableCollection<Registration>();
             Results = new ObservableCollection<Result>();
@@ -143,19 +146,20 @@ namespace ProjectPRN212.ViewModels
 
         private void AddCourse()
         {
-            NewCourse.TeacherID = 1; // Giả định TeacherID, thay bằng ID thực tế
+            NewCourse.TeacherId = 1; // Giả định TeacherID, thay bằng ID thực tế
             _context.Courses.Add(NewCourse);
             _context.SaveChanges();
             Courses.Add(NewCourse);
             NewCourse = new Course();
-            NotifyPropertyChanged(nameof(NewCourse));
+            OnPropertyChanged(nameof(NewCourse));
+
         }
 
         private void UpdateCourse()
         {
             if (SelectedCourse != null)
             {
-                var course = _context.Courses.Find(SelectedCourse.CourseID);
+                var course = _context.Courses.Find(SelectedCourse.CourseId);
                 if (course != null)
                 {
                     course.CourseName = NewCourse.CourseName;
@@ -184,7 +188,7 @@ namespace ProjectPRN212.ViewModels
                 registration.Status = "Approved";
                 _context.SaveChanges();
                 LoadData();
-                SendAutoNotification(registration.UserID, $"Your registration for {registration.Course.CourseName} has been approved.");
+                SendAutoNotification(registration.UserId, $"Your registration for {registration.Course.CourseName} has been approved.");
             }
         }
 
@@ -195,7 +199,7 @@ namespace ProjectPRN212.ViewModels
                 registration.Status = "Rejected";
                 _context.SaveChanges();
                 LoadData();
-                SendAutoNotification(registration.UserID, $"Your registration for {registration.Course.CourseName} has been rejected.");
+                SendAutoNotification(registration.UserId, $"Your registration for {registration.Course.CourseName} has been rejected.");
             }
         }
 
@@ -203,14 +207,15 @@ namespace ProjectPRN212.ViewModels
         {
             if (SelectedExam != null && SelectedRegistration != null)
             {
-                NewResult.ExamID = SelectedExam.ExamID;
-                NewResult.UserID = SelectedRegistration.UserID;
+                NewResult.ExamId = SelectedExam.ExamId;
+                NewResult.UserId = SelectedRegistration.UserId;
                 _context.Results.Add(NewResult);
                 _context.SaveChanges();
                 Results.Add(NewResult);
-                SendAutoNotification(NewResult.UserID, $"Your exam result: Score {NewResult.Score}, Pass: {NewResult.PassStatus}.");
+                SendAutoNotification(NewResult.UserId, $"Your exam result: Score {NewResult.Score}, Pass: {NewResult.PassStatus}.");
                 NewResult = new Result();
-                NotifyPropertyChanged(nameof(NewResult));
+                OnPropertyChanged(nameof(NewCourse));
+
             }
         }
 
@@ -220,15 +225,16 @@ namespace ProjectPRN212.ViewModels
             {
                 var notification = new Notification
                 {
-                    UserID = SelectedUser.UserID,
+                    UserID = SelectedUser.UserId,
                     Message = NotificationMessage,
-                    SentDate = DateTime.Now,
+                    CreatedAt = DateTime.Now,
                     IsRead = false
                 };
                 _context.Notifications.Add(notification);
                 _context.SaveChanges();
                 NotificationMessage = string.Empty;
-                NotifyPropertyChanged(nameof(NotificationMessage));
+                OnPropertyChanged(nameof(NewCourse));
+
             }
         }
 
@@ -238,7 +244,7 @@ namespace ProjectPRN212.ViewModels
             {
                 UserID = userId,
                 Message = message,
-                SentDate = DateTime.Now,
+                CreatedAt = DateTime.Now,
                 IsRead = false
             };
             _context.Notifications.Add(notification);

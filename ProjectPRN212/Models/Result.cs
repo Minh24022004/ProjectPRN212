@@ -1,19 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace ProjectPRN212
+namespace ProjectPRN212.Models;
+
+public partial class Result
 {
-    public class Result
-    {
-        public int ResultID { get; set; }
-        public int ExamID { get; set; }
-        public int UserID { get; set; }
-        public decimal Score { get; set; }
-        public bool PassStatus { get; set; }
-        public Exam Exam { get; set; }
-        public User User { get; set; }
-    }
+    public int ResultId { get; set; }
+
+    public int ExamId { get; set; }
+
+    public int UserId { get; set; }
+
+    public decimal Score { get; set; }
+
+    public bool PassStatus { get; set; }
+
+    public virtual Exam Exam { get; set; } = null!;
+
+    public virtual User User { get; set; } = null!;
 }

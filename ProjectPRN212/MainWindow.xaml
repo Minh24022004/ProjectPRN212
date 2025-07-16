@@ -7,6 +7,8 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-
+        <Button Content="Quản lý kì thi" Width="150" Height="30" Margin="10" Click="ManageExams_Click"/>
+        <Button Content="Phê duyệt chứng chỉ" Width="150" Height="30" Margin="10,50,0,0" Click="ApproveCertificates_Click"/>
+        <Button Content="Đăng xuất" Width="150" Height="30" Margin="10,100,0,0" Click="Logout_Click"/>
     </Grid>
 </Window>

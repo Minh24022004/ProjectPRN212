@@ -1,0 +1,30 @@
+﻿<UserControl x:Class="ProjectPRN212.ExamResultPage"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ProjectPRN212"
+        mc:Ignorable="d">
+
+    <Grid>
+    <StackPanel>
+        <TextBlock Text="📄 Kết Quả Thi" FontSize="24" FontWeight="Bold" Margin="0,0,0,15"/>
+
+        <ListView x:Name="lvResults">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Khóa học" Width="180" DisplayMemberBinding="{Binding CourseName}" />
+                    <GridViewColumn Header="Ngày thi" Width="120" DisplayMemberBinding="{Binding ExamDate}" />
+                    <GridViewColumn Header="Phòng" Width="100" DisplayMemberBinding="{Binding Room}" />
+                    <GridViewColumn Header="Điểm" Width="80" DisplayMemberBinding="{Binding Score}" />
+                    <GridViewColumn Header="Trạng thái" Width="100" DisplayMemberBinding="{Binding Status}" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <TextBlock x:Name="txtEmpty" Text="Không có kết quả nào." FontStyle="Italic"
+                       Visibility="Collapsed" Foreground="Gray"
+                       Margin="10" HorizontalAlignment="Center"/>
+    </StackPanel>
+    </Grid>
+</UserControl>
