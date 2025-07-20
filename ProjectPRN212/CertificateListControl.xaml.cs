@@ -38,11 +38,7 @@ namespace ProjectPRN212
       .Select(c => new
       {
           c.CertificateCode,
-          CourseName = _context.Registrations
-              .Where(r => r.UserId == c.UserId)
-              .OrderByDescending(r => r.RegistrationId)
-              .Select(r => r.Course.CourseName)
-              .FirstOrDefault(),
+  
           IssueDate = c.IssuedDate.ToShortDateString()
       })
       .ToList();

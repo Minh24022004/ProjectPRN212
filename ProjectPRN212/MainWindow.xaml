@@ -6,9 +6,31 @@
         xmlns:local="clr-namespace:ProjectPRN212"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
+
     <Grid>
-        <Button Content="Quản lý kì thi" Width="150" Height="30" Margin="10" Click="ManageExams_Click"/>
-        <Button Content="Phê duyệt chứng chỉ" Width="150" Height="30" Margin="10,50,0,0" Click="ApproveCertificates_Click"/>
-        <Button Content="Đăng xuất" Width="150" Height="30" Margin="10,100,0,0" Click="Logout_Click"/>
+        <!-- Nền gradient dịu mắt -->
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#e0c3fc" Offset="0"/>
+                <GradientStop Color="#8ec5fc" Offset="1"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+
+        <!-- Nội dung trung tâm -->
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock Text="Chào mừng đến với hệ thống quản lý kỳ thi lái xe"
+                       FontSize="26" FontWeight="Bold" Foreground="#333"
+                       TextAlignment="Center" TextWrapping="Wrap" Margin="0,0,0,30"/>
+
+            <Button Content="🔐 Đăng nhập"
+                    Width="200" Height="50"
+                    Background="#4a90e2"
+                    Foreground="White"
+                    FontSize="16"
+                    FontWeight="SemiBold"
+                    Cursor="Hand"
+                    Click="Login_Click"
+                    />
+        </StackPanel>
     </Grid>
 </Window>

@@ -85,7 +85,7 @@ namespace ProjectPRN212
             {
                 using (var context = new SafeDrivingCertificateDbContext())
                 {
-                    // Lấy học sinh đã thi của khóa học này
+                   
                     var results = (from r in context.Results
                                    join e1 in context.Exams on r.ExamId equals e1.ExamId
                                    where e1.CourseId == courseId

@@ -146,6 +146,7 @@ namespace ProjectPRN212
                 int courseId = (int)cbCourses.SelectedValue;
 
                 var exam = _context.Exams.FirstOrDefault(x => x.CourseId == courseId);
+                bool passStatus = score >= 80;
                 if (exam == null) continue;
 
                 var result = _context.Results.FirstOrDefault(r => r.UserId == userId && r.ExamId == exam.ExamId);
@@ -155,7 +156,8 @@ namespace ProjectPRN212
                     {
                         UserId = userId,
                         ExamId = exam.ExamId,
-                        Score = score
+                        Score = score,
+                        PassStatus = passStatus
                     };
                     _context.Results.Add(result);
                     var notification = new Notification
