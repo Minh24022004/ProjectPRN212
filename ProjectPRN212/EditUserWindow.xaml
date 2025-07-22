@@ -108,7 +108,11 @@
                             <Label FontSize="15">Username:</Label>
                             <Label x:Name="lbUserName" FontWeight="Bold" FontSize="15"></Label>
                             <Label FontSize="15">Role:</Label>
-                            <TextBox x:Name="lbRole" FontWeight="Bold" FontSize="15"></TextBox>
+                            <ComboBox x:Name="cbRole" Width="200" Height="30" Margin="10">
+                                <ComboBoxItem Content="Admin" />
+                                <ComboBoxItem Content="Teacher" />
+                                <ComboBoxItem Content="Student" />
+                            </ComboBox>
                             <Button Click="Button_Click"> Update role</Button>
                         </WrapPanel>
                         <Label FontSize="15" Content="New password: "></Label>

@@ -98,11 +98,22 @@ namespace ProjectPRN212
             {
                 return;
             }
+
             dynamic user = dgListUserAll.SelectedItem;
             lbUserId.Content = user.UserId;
             lbUserName.Content = user.Username;
-            lbRole.Text = user.Role;
+
+            // Gán Role vào ComboBox
+            foreach (ComboBoxItem item in cbRole.Items)
+            {
+                if (item.Content.ToString() == user.Role.ToString())
+                {
+                    cbRole.SelectedItem = item;
+                    break;
+                }
+            }
         }
+
 
         private void btnChangePass_Click(object sender, RoutedEventArgs e)
         {
@@ -131,19 +142,37 @@ namespace ProjectPRN212
             MessageBox.Show("Mật khẩu đã được thay đổi!!!", "Changepass", MessageBoxButton.YesNo, MessageBoxImage.Information);
         }
 
-       
+
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             var user = _context.Users.FirstOrDefault(u => u.UserId == Convert.ToInt32(lbUserId.Content));
             if (user != null)
             {
-                user.Role=lbRole.Text;
+                // Lấy nội dung từ ComboBox
+                var selectedItem = cbRole.SelectedItem as ComboBoxItem;
+                if (selectedItem == null)
+                {
+                    MessageBox.Show("Vui lòng chọn một Role!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+
+                string newRole = selectedItem.Content.ToString();
+                string[] allowedRoles = { "Admin", "Teacher", "Student" };
+
+                if (!allowedRoles.Contains(newRole))
+                {
+                    MessageBox.Show("Role không hợp lệ!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                user.Role = newRole;
                 _context.Users.Update(user);
                 _context.SaveChanges();
                 LoadData();
                 MessageBox.Show("Cập nhật thành công!!!", "Update User", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
+
     }
 }

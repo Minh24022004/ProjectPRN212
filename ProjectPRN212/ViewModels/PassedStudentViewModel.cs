@@ -14,6 +14,7 @@ namespace ProjectPRN212.ViewModels
         public string Class { get; set; } = "";
         public decimal Score { get; set; }
         public string CourseName { get; set; } = "";
+        public int CourseId { get; set; } = 0;
     }
 
 }

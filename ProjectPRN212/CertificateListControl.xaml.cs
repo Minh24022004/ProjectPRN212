@@ -34,19 +34,19 @@ namespace ProjectPRN212
         private void LoadCertificates()
         {
             var certificates = _context.Certificates
-      .Where(c => c.UserId == _userId)
-      .Select(c => new
-      {
-          c.CertificateCode,
-  
-          IssueDate = c.IssuedDate.ToShortDateString()
-      })
-      .ToList();
-
+                .Where(c => c.UserId == _userId)
+                .Select(c => new
+                {
+                    c.CertificateCode,
+                    CourseName = c.Course.CourseName,
+                    IssueDate = c.IssuedDate.ToShortDateString()
+                })
+                .ToList();
 
             lvCertificates.ItemsSource = certificates;
 
             txtEmpty.Visibility = certificates.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
         }
+
     }
 }

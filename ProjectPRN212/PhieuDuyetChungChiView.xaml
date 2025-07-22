@@ -35,6 +35,7 @@
                     <GridViewColumn Header="Lớp" Width="100" DisplayMemberBinding="{Binding Class}"/>
                     <GridViewColumn Header="Khóa học" Width="200" DisplayMemberBinding="{Binding CourseName}"/>
                     <GridViewColumn Header="Điểm" Width="80" DisplayMemberBinding="{Binding Score}"/>
+                    
                 </GridView>
             </ListView.View>
         </ListView>

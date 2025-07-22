@@ -16,6 +16,7 @@
                     <GridViewColumn Header="Mã chứng chỉ" Width="150" DisplayMemberBinding="{Binding CertificateCode}" />
                   
                     <GridViewColumn Header="Ngày cấp" Width="150" DisplayMemberBinding="{Binding IssueDate}" />
+                    <GridViewColumn Header="Khóa học" DisplayMemberBinding="{Binding CourseName}" />
                 </GridView>
             </ListView.View>
         </ListView>

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProjectPRN212"
         mc:Ignorable="d"
-        Title="TeacherHome" Height="450" Width="800">
+        Title="TeacherHome" Height="450" Width="900">
     <Grid Margin="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -83,11 +83,24 @@
                                 <GridViewColumn Header="Khóa học" DisplayMemberBinding="{Binding Course.CourseName}" Width="200"/>
                                 <GridViewColumn Header="Học sinh" DisplayMemberBinding="{Binding User.FullName}" Width="200"/>
                                 <GridViewColumn Header="Trạng thái" DisplayMemberBinding="{Binding Status}" Width="100"/>
-                                <GridViewColumn Header="Thao tác" Width="100">
+                                <GridViewColumn Header="Thao tác" Width="160">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <Button Content="Duyệt" Click="Approve_Click" Tag="{Binding}" Background="#4CAF50" Foreground="White"/>
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
+                                                <Button Content="Duyệt" Click="Approve_Click" Tag="{Binding}"
+                                            Background="#4CAF50" Foreground="White"/>
+                                                <Button Content="Từ chối" Click="Reject_Click" Tag="{Binding}"
+                                            Background="#F44336" Foreground="White"/>
+                                            </StackPanel>
                                         </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="Phản hồi" Width="200">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBox Width="180"
+                                         Text="{Binding Comments, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                        </DataTemplate> 
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
                             </GridView>

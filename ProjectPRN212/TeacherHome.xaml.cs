@@ -55,11 +55,33 @@ namespace ProjectPRN212
                 return;
             }
 
+            if (dpStartDate.SelectedDate == null || dpEndDate.SelectedDate == null)
+            {
+                MessageBox.Show("Vui lòng chọn ngày bắt đầu và kết thúc.");
+                return;
+            }
+
+            var startDate = DateOnly.FromDateTime(dpStartDate.SelectedDate.Value);
+            var endDate = DateOnly.FromDateTime(dpEndDate.SelectedDate.Value);
+            var today = DateOnly.FromDateTime(DateTime.Now);
+
+            if (startDate < today)
+            {
+                MessageBox.Show("Ngày bắt đầu không được nhỏ hơn ngày hôm nay.");
+                return;
+            }
+
+            if (endDate <= startDate)
+            {
+                MessageBox.Show("Ngày kết thúc phải sau ngày bắt đầu.");
+                return;
+            }
+
             var course = new Course
             {
                 CourseName = txtCourseName.Text.Trim(),
-                StartDate = DateOnly.FromDateTime(dpStartDate.SelectedDate.Value),
-                EndDate = DateOnly.FromDateTime(dpEndDate.SelectedDate.Value),
+                StartDate = startDate,
+                EndDate = endDate,
                 TeacherId = _teacherId
             };
 
@@ -68,7 +90,9 @@ namespace ProjectPRN212
 
             LoadCourses();
             MessageBox.Show("Đã thêm khóa học mới!");
+            ClearFields();
         }
+
 
         private void lvMyCourses_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -94,6 +118,27 @@ namespace ProjectPRN212
                 MessageBox.Show("Vui lòng nhập đầy đủ thông tin.");
                 return;
             }
+            if (dpStartDate.SelectedDate == null || dpEndDate.SelectedDate == null)
+            {
+                MessageBox.Show("Vui lòng chọn ngày bắt đầu và kết thúc.");
+                return;
+            }
+
+            var startDate = DateOnly.FromDateTime(dpStartDate.SelectedDate.Value);
+            var endDate = DateOnly.FromDateTime(dpEndDate.SelectedDate.Value);
+            var today = DateOnly.FromDateTime(DateTime.Now);
+
+            if (startDate < today)
+            {
+                MessageBox.Show("Ngày bắt đầu không được nhỏ hơn ngày hiện tại.");
+                return;
+            }
+            if (endDate <= startDate)
+            {
+                MessageBox.Show("Ngày kết thúc phải sau ngày bắt đầu.");
+                return;
+            }
+
 
             selectedCourse.CourseName = txtCourseName.Text.Trim();
             selectedCourse.StartDate = DateOnly.FromDateTime(dpStartDate.SelectedDate.Value);
@@ -147,7 +192,15 @@ namespace ProjectPRN212
 
                 var exam = _context.Exams.FirstOrDefault(x => x.CourseId == courseId);
                 bool passStatus = score >= 80;
-                if (exam == null) continue;
+                if (exam == null)
+                {
+                    MessageBox.Show("Chưa có kì thi, bạn không thể chấm điểm");
+                }
+                if (score < 0 || score > 100)
+                {
+                    MessageBox.Show($"Điểm của {item.User.FullName} không hợp lệ. Vui lòng nhập điểm từ 0 đến 100.");
+                    return;
+                }
 
                 var result = _context.Results.FirstOrDefault(r => r.UserId == userId && r.ExamId == exam.ExamId);
                 if (result == null)
@@ -171,6 +224,7 @@ namespace ProjectPRN212
                 else
                 {
                     result.Score = score;
+                    result.PassStatus = passStatus;
                 }
             }
 
@@ -210,6 +264,40 @@ namespace ProjectPRN212
                 _context.SaveChanges();
             }
         }
+        private void Reject_Click(object sender, RoutedEventArgs e)
+        {
+            var btn = sender as Button;
+            var registration = btn?.Tag as Registration;
+
+            if (registration != null)
+            {
+           
+                if (string.IsNullOrWhiteSpace(registration.Comments))
+                {
+                    MessageBox.Show("Vui lòng nhập lý do từ chối trong ô phản hồi.");
+                    return;
+                }
+
+                registration.Status = "Rejected";
+                _context.SaveChanges();
+
+                LoadPendingRegistrations(); 
+
+                MessageBox.Show("Đã từ chối học sinh.");
+
+                // Gửi thông báo từ chối cho học sinh
+                var notification = new Notification
+                {
+                    Message = $"Đăng ký của bạn cho khóa học {registration.Course.CourseName} đã bị từ chối. Lý do: {registration.Comments}",
+                    CreatedAt = DateTime.Now,
+                    UserID = registration.UserId
+                };
+
+                _context.Notifications.Add(notification);
+                _context.SaveChanges();
+            }
+        }
+
 
     }
 }

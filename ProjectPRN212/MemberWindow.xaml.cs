@@ -35,20 +35,28 @@ namespace ProjectPRN212
 
         private void LoadCourses()
         {
-            var courses = _context.Courses.ToList();
+            var today = DateOnly.FromDateTime(DateTime.Now);
+            var courses = _context.Courses
+                .Where(c => c.StartDate > today)
+                .ToList();
+
             cbCourses.ItemsSource = courses;
             cbCourses.DisplayMemberPath = "CourseName";
             cbCourses.SelectedValuePath = "CourseId";
         }
 
-        private void cbCourses_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+
+        private void cbCourses_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (cbCourses.SelectedValue != null)
             {
                 int courseId = (int)cbCourses.SelectedValue;
+                var today = DateOnly.FromDateTime(DateTime.Now);
+
                 var exams = _context.Exams
-                    .Where(ex => ex.CourseId == courseId)
+                    .Where(ex => ex.CourseId == courseId && ex.Date > today)
                     .ToList();
+
                 lvExams.ItemsSource = exams;
             }
         }

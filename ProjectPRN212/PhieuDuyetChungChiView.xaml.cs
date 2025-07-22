@@ -62,10 +62,10 @@ namespace ProjectPRN212
         {
             var query = from r in _context.Results
                         where r.PassStatus
-                           && !_context.Certificates.Any(c => c.UserId == r.UserId)
                         join u in _context.Users on r.UserId equals u.UserId
                         join e in _context.Exams on r.ExamId equals e.ExamId
                         join c in _context.Courses on e.CourseId equals c.CourseId
+                        where !_context.Certificates.Any(cert => cert.UserId == r.UserId && cert.CourseId == e.CourseId)
                         select new PassedStudentViewModel
                         {
                             UserId = u.UserId,
@@ -73,8 +73,10 @@ namespace ProjectPRN212
                             Email = u.Email,
                             Class = u.Class ?? "",
                             Score = r.Score,
-                            CourseName = c.CourseName
+                            CourseName = c.CourseName,
+                            CourseId = e.CourseId
                         };
+
 
             // Áp dụng lọc nếu có chọn
             string selectedClass = ClassFilterComboBox.SelectedItem as string;
@@ -112,10 +114,13 @@ namespace ProjectPRN212
                     UserId = student.UserId,
                     IssuedDate = DateOnly.FromDateTime(DateTime.Today),
                     ExpirationDate = DateOnly.FromDateTime(DateTime.Today.AddYears(3)),
-                    CertificateCode = certCode
+                    CertificateCode = certCode,
+        
+                    CourseId = student.CourseId,
                 };
 
-
+                var course = _context.Courses.FirstOrDefault(c => c.CourseId == student.CourseId);
+                var courseName = course?.CourseName ?? "khóa học không xác định";
                 _context.Certificates.Add(cert);
 
                 // (Tuỳ chọn) Thêm thông báo
@@ -123,7 +128,7 @@ namespace ProjectPRN212
                 _context.Notifications.Add(new Notification
                 {
                     UserID = student.UserId,
-                    Message = $"Bạn đã được cấp chứng chỉ số {certCode}",
+                    Message = $"Bạn đã được cấp chứng chỉ số {certCode} cho khóa học {courseName}" ,
                     CreatedAt = DateTime.Now
                 });
                 
